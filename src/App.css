@@ -1,0 +1,14 @@
+/* App Styling */
+
+.App {
+  background-color: #3e4148;
+  min-height: 100dvh;
+  text-align: center;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.Grid-item {
+  padding: 1%;
+}
