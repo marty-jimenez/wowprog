@@ -33,7 +33,7 @@ export const getWowToken = async (token: string) => {
     url: 'https://us.api.blizzard.com/data/wow/token/?namespace=dynamic-us',
     headers: { Authorization: token }
   });
-  console.log(data);
+  // console.log(data);
   return data;
 };
 
