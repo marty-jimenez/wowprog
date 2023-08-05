@@ -70,6 +70,27 @@ export const getCharacterProfile = async (
     const message =
       error instanceof Error
         ? error.message
+        : 'Error\nRequest failed with unknown error.';
+    return message;
+  }
+};
+
+export const getCharacterMedia = async (
+  token: string,
+  realm: string,
+  name: string
+) => {
+  try {
+    const { data } = await axios.request({
+      method: 'get',
+      url: `https://us.api.blizzard.com/profile/wow/character/${realm.toLowerCase()}/${name.toLowerCase()}/character-media?namespace=profile-us`,
+      headers: { Authorization: token }
+    });
+    return data;
+  } catch (error) {
+    const message =
+      error instanceof Error
+        ? error.message
         : 'Request failed with unknown error.';
     return message;
   }

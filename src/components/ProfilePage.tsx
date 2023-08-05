@@ -1,23 +1,37 @@
 import { useState, FormEvent } from 'react';
 import { Button, Grid, TextField, Typography } from '@mui/material';
-import { getCharacterProfile } from '../apiRequest';
+import { getCharacterMedia, getCharacterProfile } from '../apiRequest';
 import style from '../globalStyles/GlobalStyles.module.css';
+import { CharacterMedia } from './SharedInterfaces';
 interface ProfileProps {
   token: string;
 }
 
 const ProfilePage = ({ token }: ProfileProps) => {
-  const [profileData, setProfileData] = useState({});
+  const [characterProfile, setCharacterProfile] = useState({});
+  const [characterMedia, setCharacterMedia] = useState<CharacterMedia>({});
   const [formInput, setFormInput] = useState({ realm: '', name: '' });
 
-  const handleCharacterProfile = async (event: FormEvent<HTMLFormElement>) => {
+  const handleCharacterProfileAndMedia = async (
+    event: FormEvent<HTMLFormElement>
+  ) => {
     event.preventDefault();
-    const response = await getCharacterProfile(
+    const profile = await getCharacterProfile(
       token,
       formInput.realm,
       formInput.name
     );
-    typeof response != 'object' ? setProfileData([]) : setProfileData(response);
+
+    const media: CharacterMedia = await getCharacterMedia(
+      token,
+      formInput.realm,
+      formInput.name
+    );
+
+    typeof profile != 'object'
+      ? setCharacterProfile({})
+      : setCharacterProfile(profile);
+    typeof media != 'object' ? setCharacterMedia({}) : setCharacterMedia(media);
   };
   return (
     <Grid container className={style.gridContainer}>
@@ -28,7 +42,7 @@ const ProfilePage = ({ token }: ProfileProps) => {
         <form
           autoComplete="on"
           onSubmit={(event) => {
-            handleCharacterProfile(event);
+            handleCharacterProfileAndMedia(event);
           }}
         >
           <Grid className={style.gridItem} item xs={12}>
@@ -76,7 +90,16 @@ const ProfilePage = ({ token }: ProfileProps) => {
         </form>
       </Grid>
       <Grid item xs={6} sx={{ wordBreak: 'break-all' }}>
-        {JSON.stringify(profileData)}
+        {JSON.stringify(characterProfile)}
+        {characterMedia.assets && characterMedia.assets.length === 3 && (
+          <img
+            style={{
+              width: '100%',
+              height: '100%'
+            }}
+            src={characterMedia.assets[2].value}
+          />
+        )}
       </Grid>
     </Grid>
   );
