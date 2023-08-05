@@ -28,13 +28,20 @@ export const getAccessToken = async (
 };
 
 export const getWowToken = async (token: string) => {
-  const { data } = await axios.request({
-    method: 'get',
-    url: 'https://us.api.blizzard.com/data/wow/token/?namespace=dynamic-us',
-    headers: { Authorization: token }
-  });
-  // console.log(data);
-  return data;
+  try {
+    const { data } = await axios.request({
+      method: 'get',
+      url: 'https://us.api.blizzard.com/data/wow/token/?namespace=dynamic-us',
+      headers: { Authorization: token }
+    });
+    return data;
+  } catch (error) {
+    const message =
+      error instanceof Error
+        ? error.message
+        : 'Request failed with unknown error.';
+    return message;
+  }
 };
 
 // export const getRealm = async (realmSlug: string) => {
@@ -47,12 +54,44 @@ export const getWowToken = async (token: string) => {
 //     return data
 // }
 
-// export const getCharacterProfile = async () => {
-//     const { data } = await axios.request({
-//         method: "get",
-//         url: "https://us.api.blizzard.com/profile/wow/character/stormrage/alldeez?namespace=profile-us",
-//         headers: { "Authorization":  accessToken},
-//       })
-//     console.log(data)
-//     return data
-// }
+export const getCharacterProfile = async (
+  token: string,
+  realm: string,
+  name: string
+) => {
+  try {
+    const { data } = await axios.request({
+      method: 'get',
+      url: `https://us.api.blizzard.com/profile/wow/character/${realm.toLowerCase()}/${name.toLowerCase()}?namespace=profile-us`,
+      headers: { Authorization: token }
+    });
+    return data;
+  } catch (error) {
+    const message =
+      error instanceof Error
+        ? error.message
+        : 'Error\nRequest failed with unknown error.';
+    return message;
+  }
+};
+
+export const getCharacterMedia = async (
+  token: string,
+  realm: string,
+  name: string
+) => {
+  try {
+    const { data } = await axios.request({
+      method: 'get',
+      url: `https://us.api.blizzard.com/profile/wow/character/${realm.toLowerCase()}/${name.toLowerCase()}/character-media?namespace=profile-us`,
+      headers: { Authorization: token }
+    });
+    return data;
+  } catch (error) {
+    const message =
+      error instanceof Error
+        ? error.message
+        : 'Request failed with unknown error.';
+    return message;
+  }
+};

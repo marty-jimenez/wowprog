@@ -2,6 +2,7 @@ import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import { Switch, IconButton, Toolbar, Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import MenuIcon from '@mui/icons-material/Menu';
+
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
 }
@@ -23,9 +24,10 @@ const AppBar = styled(MuiAppBar, {
     })
   })
 }));
+
 interface HeaderProps {
-  handleDarkModeToggle: () => void; // required
-  handleSideNavOpen: () => void; // required
+  handleDarkModeToggle: () => void;
+  handleSideNavOpen: () => void;
   sideNavOpen: boolean;
 }
 const Header = ({

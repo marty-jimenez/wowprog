@@ -1,7 +1,7 @@
 import { FormEvent, useCallback, useState } from 'react';
 import { TextField, Button, Grid, Typography } from '@mui/material';
 import { getAccessToken } from '../apiRequest';
-
+import style from '../globalStyles/GlobalStyles.module.css';
 interface LoginProps {
   setToken: React.Dispatch<React.SetStateAction<string>>;
 }
@@ -23,7 +23,7 @@ const ClientLogin = ({ setToken }: LoginProps) => {
   );
 
   return (
-    <Grid container className="App">
+    <Grid container className={style.gridContainer} sx={{ height: '80dvh' }}>
       <Grid item xs={12}>
         <Typography variant="body1" color="textSecondary" component="p">
           Log In
@@ -32,47 +32,49 @@ const ClientLogin = ({ setToken }: LoginProps) => {
           Access Battle.net APIs
         </Typography>
         <form autoComplete="on" onSubmit={handleSubmit}>
-          <Grid className="Grid-item" item xs={12}>
-            <TextField
-              id="client-id"
-              label="Client ID"
-              variant="filled"
-              size="small"
-              type="text"
-              required
-              value={auth.client_id}
-              onChange={(event) =>
-                setAuth((prevObject) => ({
-                  ...prevObject,
-                  client_id: event.target.value
-                }))
-              }
-            />
-          </Grid>
-          <Grid className="Grid-item" item xs={12}>
-            <TextField
-              id="client-secret"
-              label="Client Secret"
-              variant="filled"
-              required
-              type="text"
-              value={auth.client_secret}
-              onChange={(event) =>
-                setAuth((prevObject) => ({
-                  ...prevObject,
-                  client_secret: event.target.value
-                }))
-              }
-            />
-          </Grid>
-          <Grid className="Grid-item" item xs={12}>
-            <Button
-              variant="contained"
-              disabled={!auth.client_id || !auth.client_secret}
-              type="submit"
-            >
-              LOGIN
-            </Button>
+          <Grid container>
+            <Grid className={style.gridItem} item xs={12}>
+              <TextField
+                id="client-id"
+                label="Client ID"
+                variant="filled"
+                size="small"
+                type="text"
+                required
+                value={auth.client_id}
+                onChange={(event) =>
+                  setAuth((prevObject) => ({
+                    ...prevObject,
+                    client_id: event.target.value
+                  }))
+                }
+              />
+            </Grid>
+            <Grid className={style.gridItem} item xs={12}>
+              <TextField
+                id="client-secret"
+                label="Client Secret"
+                variant="filled"
+                required
+                type="text"
+                value={auth.client_secret}
+                onChange={(event) =>
+                  setAuth((prevObject) => ({
+                    ...prevObject,
+                    client_secret: event.target.value
+                  }))
+                }
+              />
+            </Grid>
+            <Grid className={style.gridItem} item xs={12}>
+              <Button
+                variant="contained"
+                disabled={!auth.client_id || !auth.client_secret}
+                type="submit"
+              >
+                LOGIN
+              </Button>
+            </Grid>
           </Grid>
         </form>
       </Grid>

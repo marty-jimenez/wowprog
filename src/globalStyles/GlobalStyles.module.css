@@ -1,9 +1,9 @@
-/* App Styling */
-
-.App {
-  min-height: 100dvh;
+.gridContainer {
   text-align: center;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+.gridItem {
+  padding: 1%;
 }
