@@ -5,9 +5,8 @@ import {
   createTheme,
   useMediaQuery
 } from '@mui/material';
-import ClientLogin from './components/ClientLogin';
-import MainRouter from './components/MainRouter';
 import './App.css';
+import Main from './components/Main';
 // custom theme components
 declare module '@mui/material/styles' {
   interface Theme {
@@ -23,7 +22,6 @@ declare module '@mui/material/styles' {
 }
 
 function App() {
-  const [token, setToken] = useState('');
   const [darkMode, setDarkMode] = useState(
     useMediaQuery('(prefers-color-scheme: dark)')
   );
@@ -47,11 +45,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      {token ? (
-        <MainRouter token={token} handleDarkModeToggle={handleDarkModeToggle} />
-      ) : (
-        <ClientLogin setToken={setToken} />
-      )}
+      <Main handleDarkModeToggle={handleDarkModeToggle} />
     </ThemeProvider>
   );
 }

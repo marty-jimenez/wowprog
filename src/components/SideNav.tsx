@@ -15,7 +15,8 @@ import {
   Home,
   GitHub,
   LinkedIn,
-  Storage
+  Storage,
+  Portrait
 } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 
@@ -73,118 +74,140 @@ interface SideNavProps {
 }
 const SideNav = ({ handleSideNavOpen, sideNavOpen }: SideNavProps) => {
   return (
-    <>
-      <Drawer variant="permanent" open={sideNavOpen}>
-        <DrawerHeader>
-          <IconButton
-            aria-label="open side navigation"
-            onClick={handleSideNavOpen}
+    <Drawer variant="permanent" open={sideNavOpen}>
+      <DrawerHeader>
+        <IconButton
+          aria-label="open side navigation"
+          onClick={handleSideNavOpen}
+        >
+          {sideNavOpen ? <ChevronLeft /> : <ChevronRight />}
+        </IconButton>
+      </DrawerHeader>
+      <Divider />
+      <List>
+        <ListItem disablePadding>
+          <ListItemButton
+            component={Link}
+            aria-label="home button"
+            to="/"
+            sx={{
+              minHeight: 48,
+              justifyContent: sideNavOpen ? 'initial' : 'center',
+              px: 2.5
+            }}
           >
-            {sideNavOpen ? <ChevronLeft /> : <ChevronRight />}
-          </IconButton>
-        </DrawerHeader>
+            <ListItemIcon
+              sx={{
+                minWidth: 0,
+                mr: sideNavOpen ? 3 : 'auto',
+                justifyContent: 'center'
+              }}
+            >
+              <Home />
+            </ListItemIcon>
+            {sideNavOpen && <ListItemText>Home</ListItemText>}
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton
+            component={Link}
+            aria-label="profile button"
+            to="/profile"
+            sx={{
+              minHeight: 48,
+              justifyContent: sideNavOpen ? 'initial' : 'center',
+              px: 2.5
+            }}
+          >
+            <ListItemIcon
+              sx={{
+                minWidth: 0,
+                mr: sideNavOpen ? 3 : 'auto',
+                justifyContent: 'center'
+              }}
+            >
+              <Portrait />
+            </ListItemIcon>
+            {sideNavOpen && <ListItemText>Character Profile</ListItemText>}
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton
+            component={Link}
+            aria-label="home button"
+            to="/logs"
+            sx={{
+              minHeight: 48,
+              justifyContent: sideNavOpen ? 'initial' : 'center',
+              px: 2.5
+            }}
+          >
+            <ListItemIcon
+              sx={{
+                minWidth: 0,
+                mr: sideNavOpen ? 3 : 'auto',
+                justifyContent: 'center'
+              }}
+            >
+              <Storage />
+            </ListItemIcon>
+            {sideNavOpen && <ListItemText>Logs</ListItemText>}
+          </ListItemButton>
+        </ListItem>
+      </List>
+      {/* FOOTER */}
+      <List style={{ marginTop: `auto` }}>
         <Divider />
-        <List>
-          <ListItem disablePadding>
-            <ListItemButton
-              component={Link}
-              aria-label="home button"
-              to="/"
+        <ListItem disablePadding sx={{ paddingTop: '8px' }}>
+          <ListItemButton
+            component={Link}
+            aria-label="github button"
+            to="https://github.com/marty-jimenez"
+            target="_blank"
+            sx={{
+              minHeight: 48,
+              justifyContent: sideNavOpen ? 'initial' : 'center',
+              px: 2.5
+            }}
+          >
+            <ListItemIcon
               sx={{
-                minHeight: 48,
-                justifyContent: sideNavOpen ? 'initial' : 'center',
-                px: 2.5
+                minWidth: 0,
+                mr: sideNavOpen ? 3 : 'auto',
+                justifyContent: 'center'
               }}
             >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: sideNavOpen ? 3 : 'auto',
-                  justifyContent: 'center'
-                }}
-              >
-                <Home />
-              </ListItemIcon>
-              {sideNavOpen && <ListItemText>Home</ListItemText>}
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton
-              component={Link}
-              aria-label="home button"
-              to="/logs"
+              <GitHub />
+            </ListItemIcon>
+            {sideNavOpen && <ListItemText>GitHub</ListItemText>}
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton
+            component={Link}
+            aria-label="linkedin button"
+            to="https://linkedin.com/in/martinjimenezjr/"
+            target="_blank"
+            sx={{
+              minHeight: 48,
+              justifyContent: sideNavOpen ? 'initial' : 'center',
+              px: 2.5
+            }}
+          >
+            <ListItemIcon
               sx={{
-                minHeight: 48,
-                justifyContent: sideNavOpen ? 'initial' : 'center',
-                px: 2.5
+                minWidth: 0,
+                mr: sideNavOpen ? 3 : 'auto',
+                justifyContent: 'center'
               }}
             >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: sideNavOpen ? 3 : 'auto',
-                  justifyContent: 'center'
-                }}
-              >
-                <Storage />
-              </ListItemIcon>
-              {sideNavOpen && <ListItemText>Logs</ListItemText>}
-            </ListItemButton>
-          </ListItem>
-        </List>
-        <List style={{ marginTop: `auto` }}>
-          <Divider />
-          <ListItem disablePadding sx={{ paddingTop: '8px' }}>
-            <ListItemButton
-              component={Link}
-              aria-label="github button"
-              to="https://github.com/marty-jimenez"
-              target="_blank"
-              sx={{
-                minHeight: 48,
-                justifyContent: sideNavOpen ? 'initial' : 'center',
-                px: 2.5
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: sideNavOpen ? 3 : 'auto',
-                  justifyContent: 'center'
-                }}
-              >
-                <GitHub />
-              </ListItemIcon>
-              {sideNavOpen && <ListItemText>GitHub</ListItemText>}
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton
-              component={Link}
-              aria-label="linkedin button"
-              to="https://linkedin.com/in/martinjimenezjr/"
-              target="_blank"
-              sx={{
-                minHeight: 48,
-                justifyContent: sideNavOpen ? 'initial' : 'center',
-                px: 2.5
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: sideNavOpen ? 3 : 'auto',
-                  justifyContent: 'center'
-                }}
-              >
-                <LinkedIn />
-              </ListItemIcon>
-              {sideNavOpen && <ListItemText>LinkedIn</ListItemText>}
-            </ListItemButton>
-          </ListItem>
-        </List>
-      </Drawer>
-    </>
+              <LinkedIn />
+            </ListItemIcon>
+            {sideNavOpen && <ListItemText>LinkedIn</ListItemText>}
+          </ListItemButton>
+        </ListItem>
+      </List>
+    </Drawer>
   );
 };
 export default SideNav;
