@@ -1,6 +1,6 @@
 import { FormEvent, useCallback, useState } from 'react';
 import { TextField, Button, Grid, Typography } from '@mui/material';
-import { getAccessToken } from '../apiRequest';
+import { getAccessToken } from '../apiRequests/apiRequest';
 import style from '../globalStyles/GlobalStyles.module.css';
 interface LoginProps {
   setToken: React.Dispatch<React.SetStateAction<string>>;

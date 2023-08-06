@@ -95,3 +95,45 @@ export const getCharacterMedia = async (
     return message;
   }
 };
+
+export const getCharacterEquipment = async (
+  token: string,
+  realm: string,
+  name: string
+) => {
+  try {
+    const { data } = await axios.request({
+      method: 'get',
+      url: `https://us.api.blizzard.com/profile/wow/character/${realm.toLowerCase()}/${name.toLowerCase()}/equipment?namespace=profile-us`,
+      headers: { Authorization: token }
+    });
+    return data;
+  } catch (error) {
+    const message =
+      error instanceof Error
+        ? error.message
+        : 'Request failed with unknown error.';
+    return message;
+  }
+};
+
+export const getCharacterRaids = async (
+  token: string,
+  realm: string,
+  name: string
+) => {
+  try {
+    const { data } = await axios.request({
+      method: 'get',
+      url: `https://us.api.blizzard.com/profile/wow/character/${realm.toLowerCase()}/${name.toLowerCase()}/encounters/raids?namespace=profile-us`,
+      headers: { Authorization: token }
+    });
+    return data;
+  } catch (error) {
+    const message =
+      error instanceof Error
+        ? error.message
+        : 'Request failed with unknown error.';
+    return message;
+  }
+};
