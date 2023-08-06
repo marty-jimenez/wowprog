@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
+import ProfileInput from './ProfileInput';
 import ProfilePage from './ProfilePage';
 
 interface MainRouterProps {
@@ -8,7 +9,11 @@ interface MainRouterProps {
 const MainRouter = ({ token }: MainRouterProps) => {
   return (
     <Routes>
-      <Route path="/profile" element={<ProfilePage token={token} />} />
+      <Route path="/profile" element={<ProfileInput token={token} />} />
+      <Route
+        path="/profile/:name/:realm"
+        element={<ProfilePage token={token} />}
+      />
     </Routes>
   );
 };
