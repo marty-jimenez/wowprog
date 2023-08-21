@@ -52,7 +52,7 @@ interface InstanceProgress {
 // DIFFICULTY, PROGRESS, STATUS
 export interface InstanceMode {
   difficulty: NameTypePair;
-  progress: InstanceProgress[];
+  progress: InstanceProgress;
   status: NameTypePair;
 }
 // INSTANCE, MODES

@@ -15,8 +15,12 @@ const ClientLogin = ({ setToken }: LoginProps) => {
   const handleSubmit = useCallback(
     async (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
-      const token = await getAccessToken(auth.client_id, auth.client_secret);
-      token.includes('failed') ? setToken('') : setToken('Bearer ' + token);
+      try {
+        const token = await getAccessToken(auth.client_id, auth.client_secret);
+        setToken('Bearer ' + token);
+      } catch (e) {
+        setToken('');
+      }
       setAuth({ client_id: '', client_secret: '' });
     },
     [auth, setToken]

@@ -1,12 +1,25 @@
 import { useState, useEffect } from 'react';
-import { Grid, Typography } from '@mui/material';
-import style from '../globalStyles/GlobalStyles.module.css';
+import {
+  Grid,
+  Typography,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  IconButton,
+  CircularProgress
+} from '@mui/material';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import {
   CharacterMedia,
   CharacterProfile,
   CharacterRaids,
   InstanceMode
 } from './SharedInterfaces';
+
 interface ProfilePageProps {
   token: string;
 }
@@ -20,18 +33,7 @@ function parseRaids(raids: CharacterRaids) {
   });
   return raidCompletion;
 }
-function renderModes(modes: InstanceMode): JSX.Element {
-  return <div>{modes.difficulty.type}</div>;
-}
-function renderRaids(name: string, modes: InstanceMode[]): JSX.Element {
-  console.log(name, modes);
-  return (
-    <div>
-      {name}
-      {modes.map(renderModes)}
-    </div>
-  );
-}
+
 const ProfilePage = ({ token }: ProfilePageProps) => {
   const [characterProfile, setCharacterProfile] =
     useState<CharacterProfile | null>(null);
@@ -39,12 +41,18 @@ const ProfilePage = ({ token }: ProfilePageProps) => {
     null
   );
   const [characterEquipment, setCharacterEquipment] = useState(null);
-  // const [characterRaids, setCharacterRaids] = useState<CharacterRaids | null>(
-  //   null
-  // );
   const [characterRaids, setCharacterRaids] = useState<{
     [key: string]: InstanceMode[];
   }>({});
+  const [expandedRaid, setExpandedRaid] = useState<string | null>(null);
+
+  const toggleExpand = (name: string) => {
+    if (expandedRaid === name) {
+      setExpandedRaid(null);
+    } else {
+      setExpandedRaid(name);
+    }
+  };
 
   useEffect(() => {
     const raids = localStorage.getItem('characterRaids');
@@ -55,44 +63,121 @@ const ProfilePage = ({ token }: ProfilePageProps) => {
       setCharacterEquipment(JSON.parse(equipment));
       setCharacterProfile(JSON.parse(profile));
       setCharacterMedia(JSON.parse(media));
-      // setCharacterRaids(JSON.parse(raids));
       setCharacterRaids(parseRaids(JSON.parse(raids)));
     }
   }, [token]);
+
   /* TODO:
         1. lazy loading
+          1.1 hash this out more, only have circular loading for table
         2. raid progression list, maybe a table with pagination for each raid done starting at most recent
+          2.1 make table its own seperate custom component
         3. layout for profile
    */
   return (
-    <Grid container className={style.gridContainer}>
-      <Grid item xs={4}>
-        {characterMedia && characterProfile && (
+    <Grid container spacing={4} sx={{ p: 2 }}>
+      {characterRaids ? (
+        <Grid item xs={5}>
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>
+                    <strong>Raid</strong>
+                  </TableCell>
+                  <TableCell>
+                    <strong>Difficulty</strong>
+                  </TableCell>
+                  <TableCell>
+                    <strong>Completion</strong>
+                  </TableCell>
+                  <TableCell />
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {Object.entries(characterRaids).map(([name, modes]) => (
+                  <>
+                    <TableRow>
+                      <TableCell>{name}</TableCell>
+                      <TableCell>
+                        {characterRaids[name][0].difficulty.type}
+                      </TableCell>
+                      <TableCell>
+                        {characterRaids[name][0].progress.completed_count +
+                          '/' +
+                          characterRaids[name][0].progress.total_count}
+                      </TableCell>
+                      <TableCell size="small">
+                        {characterRaids[name].length > 1 && (
+                          <IconButton
+                            aria-label="expand row"
+                            size="small"
+                            onClick={() => toggleExpand(name)}
+                          >
+                            {expandedRaid === name ? (
+                              <KeyboardArrowUpIcon />
+                            ) : (
+                              <KeyboardArrowDownIcon />
+                            )}
+                          </IconButton>
+                        )}
+                      </TableCell>
+                    </TableRow>
+                    {expandedRaid === name && (
+                      <TableRow>
+                        <TableCell colSpan={4}>
+                          <TableContainer>
+                            <Table>
+                              <TableBody>
+                                {modes.map((instance) => (
+                                  <TableRow
+                                    key={instance.difficulty.type + ' ' + name}
+                                  >
+                                    <TableCell />
+                                    <TableCell>
+                                      {instance.difficulty.type}
+                                    </TableCell>
+                                    <TableCell>
+                                      {instance.progress.completed_count +
+                                        '/' +
+                                        instance.progress.total_count}
+                                    </TableCell>
+                                    <TableCell />
+                                  </TableRow>
+                                ))}
+                              </TableBody>
+                            </Table>
+                          </TableContainer>
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  </>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Grid>
+      ) : (
+        // TODO: hash this out more
+        <CircularProgress />
+      )}
+      {characterMedia && characterProfile && (
+        <Grid item xs={4} style={{ textAlign: 'center' }}>
           <>
-            <Typography
-              variant="h4"
-              component="p"
-              sx={{ fontFamily: 'Arial Narrow Bold' }}
-            >
+            <Typography variant="h4" sx={{ fontFamily: 'Arial Narrow Bold' }}>
               {`${characterProfile.name} ${characterProfile.average_item_level}`}
             </Typography>
             <img
               style={{
                 width: '100%',
-                height: '100%',
+
                 backgroundColor: 'pink'
               }}
               src={characterMedia.assets[2].value}
             />
           </>
-        )}
-      </Grid>
-      <Grid item xs={4}>
-        {characterRaids &&
-          Object.entries(characterRaids).map(([name, modes]) =>
-            renderRaids(name, modes)
-          )}
-      </Grid>
+        </Grid>
+      )}
     </Grid>
   );
 };
