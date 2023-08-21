@@ -18,23 +18,20 @@ const ProfileInput = ({ token }: ProfileInputProps) => {
 
   const handleProfileSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const [raids, media, profile, equipment] = await Promise.all([
-      getCharacterRaids(token, formInput.realm, formInput.name),
-      getCharacterMedia(token, formInput.realm, formInput.name),
-      getCharacterProfile(token, formInput.realm, formInput.name),
-      getCharacterEquipment(token, formInput.realm, formInput.name)
-    ]);
-    if (
-      Object.keys(raids).length > 0 &&
-      Object.keys(media).length > 0 &&
-      Object.keys(profile).length > 0 &&
-      Object.keys(equipment).length > 0
-    ) {
+    try {
+      const [raids, media, profile, equipment] = await Promise.all([
+        getCharacterRaids(token, formInput.realm, formInput.name),
+        getCharacterMedia(token, formInput.realm, formInput.name),
+        getCharacterProfile(token, formInput.realm, formInput.name),
+        getCharacterEquipment(token, formInput.realm, formInput.name)
+      ]);
       localStorage.setItem('characterRaids', JSON.stringify(raids));
       localStorage.setItem('characterMedia', JSON.stringify(media));
       localStorage.setItem('characterProfile', JSON.stringify(profile));
       localStorage.setItem('characterEquipment', JSON.stringify(equipment));
       navigate(`/profile/${formInput.name}/${formInput.realm}`);
+    } catch (e) {
+      setFormInput({ realm: '', name: '' });
     }
   };
 

@@ -23,7 +23,7 @@ export const getAccessToken = async (
       error instanceof Error
         ? error.message
         : 'Request failed with unknown error.';
-    return message;
+    return Promise.reject(message);
   }
 };
 
@@ -40,7 +40,7 @@ export const getWowToken = async (token: string) => {
       error instanceof Error
         ? error.message
         : 'Request failed with unknown error.';
-    return message;
+    return Promise.reject(message);
   }
 };
 
@@ -71,7 +71,7 @@ export const getCharacterProfile = async (
       error instanceof Error
         ? error.message
         : 'Error\nRequest failed with unknown error.';
-    return message;
+    return Promise.reject(message);
   }
 };
 
@@ -92,7 +92,7 @@ export const getCharacterMedia = async (
       error instanceof Error
         ? error.message
         : 'Request failed with unknown error.';
-    return message;
+    return Promise.reject(message);
   }
 };
 
@@ -113,7 +113,7 @@ export const getCharacterEquipment = async (
       error instanceof Error
         ? error.message
         : 'Request failed with unknown error.';
-    return message;
+    return Promise.reject(message);
   }
 };
 
@@ -134,6 +134,6 @@ export const getCharacterRaids = async (
       error instanceof Error
         ? error.message
         : 'Request failed with unknown error.';
-    return message;
+    return Promise.reject(message);
   }
 };

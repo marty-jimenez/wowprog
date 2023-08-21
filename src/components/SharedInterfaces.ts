@@ -19,10 +19,10 @@ interface KeyValuePair {
   value: string;
 }
 // ID, KEY, NAME
-interface IKNCommon {
+export interface IKNCommon {
   id: number;
   key: { href: string };
-  name: Regions;
+  name: string;
 }
 // ID, KEY, NAME, REALM
 interface IKNRealm extends IKNCommon {
@@ -50,9 +50,9 @@ interface InstanceProgress {
   total_count: number;
 }
 // DIFFICULTY, PROGRESS, STATUS
-interface InstanceMode {
+export interface InstanceMode {
   difficulty: NameTypePair;
-  progress: InstanceProgress[];
+  progress: InstanceProgress;
   status: NameTypePair;
 }
 // INSTANCE, MODES
@@ -61,9 +61,9 @@ interface Instance {
   modes: InstanceMode[];
 }
 // EXPANSION, INSTANCE
-interface Expansion {
+export interface Expansion {
   expansion: IKNCommon;
-  instance: Instance[];
+  instances: Instance[];
 }
 
 export interface CharacterRaids {
