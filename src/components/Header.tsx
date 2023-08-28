@@ -42,6 +42,7 @@ const Header = ({
           style={{ justifyContent: sideNavOpen ? 'flex-end' : 'space-between' }}
         >
           <IconButton
+            data-testid="header-menu-button"
             aria-label="open side navigation"
             edge="start"
             onClick={handleSideNavOpen}
@@ -52,7 +53,10 @@ const Header = ({
           >
             <MenuIcon />
           </IconButton>
-          <Switch defaultChecked onChange={handleDarkModeToggle} />
+          <Switch
+            data-testid="header-theme-toggle"
+            onChange={handleDarkModeToggle}
+          />
         </Toolbar>
       </AppBar>
     </Box>

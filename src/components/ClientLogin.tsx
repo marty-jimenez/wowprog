@@ -5,12 +5,12 @@ import style from '../globalStyles/GlobalStyles.module.css';
 interface LoginProps {
   setToken: React.Dispatch<React.SetStateAction<string>>;
 }
+
 const ClientLogin = ({ setToken }: LoginProps) => {
   const [auth, setAuth] = useState({ client_id: '', client_secret: '' });
-
   /* TODO: 
     commit token to localstorage as well and check for expiration
-    add error shaking
+    add error shaking & message
   */
   const handleSubmit = useCallback(
     async (event: FormEvent<HTMLFormElement>) => {
@@ -39,24 +39,24 @@ const ClientLogin = ({ setToken }: LoginProps) => {
           <Grid container>
             <Grid className={style.gridItem} item xs={12}>
               <TextField
-                id="client-id"
+                data-testid="client-id-field"
                 label="Client ID"
                 variant="filled"
                 size="small"
                 type="text"
                 required
                 value={auth.client_id}
-                onChange={(event) =>
+                onChange={(event) => {
                   setAuth((prevObject) => ({
                     ...prevObject,
                     client_id: event.target.value
-                  }))
-                }
+                  }));
+                }}
               />
             </Grid>
             <Grid className={style.gridItem} item xs={12}>
               <TextField
-                id="client-secret"
+                data-testid="client-secret-field"
                 label="Client Secret"
                 variant="filled"
                 required
@@ -72,6 +72,7 @@ const ClientLogin = ({ setToken }: LoginProps) => {
             </Grid>
             <Grid className={style.gridItem} item xs={12}>
               <Button
+                data-testid="client-submit"
                 variant="contained"
                 disabled={!auth.client_id || !auth.client_secret}
                 type="submit"
